@@ -15,7 +15,7 @@
 </template>
 
 <script setup>
-import { ref, watch } from 'vue';
+import { ref, watch, watchEffect } from 'vue';
 import { defineProps, defineEmits } from 'vue'
 
 const props = defineProps(['categories', 'maxPrice']);
@@ -23,6 +23,12 @@ const emit = defineEmits(['filter']);
 
 const selectedCategory = ref('');
 const priceRange = ref(props.maxPrice);
+
+watchEffect(() => {
+  if (props.maxPrice > 0) {
+    priceRange.value = props.maxPrice
+  }
+})
 
 watch([selectedCategory, priceRange], () => {
   emit('filter', {
