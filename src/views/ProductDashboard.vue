@@ -2,7 +2,7 @@
   <div>
     <div class="flex items-center justify-between px-4 py-2 bg-white">
       <div class="p-2 rounded">
-        <img src="../assets/img.png" alt="daka" class="h-4 w-auto" />
+        <img src="../assets/daka.png" alt="daka" class="h-20 w-auto" />
       </div>
       <h2 class="flex-1 text-center text-2xl font-semibold">Tablero de Control</h2>
       <div class="w-16"></div>
@@ -20,16 +20,15 @@
       @filter="applyFilters"
     />
 
-    <div class="grid grid-cols-2 gap-4 auto-rows-auto">
-      <template v-for="(p, index) in paginatedProducts" :key="p.id">
-        <div
-          :class="getGridClass(index)"
-        >
-          <ProductCard :product="p" :rate="exchangeRate" />
-        </div>
-      </template>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+      <ProductCard
+        v-for="p in paginatedProducts"
+        :key="p.id"
+        :product="p"
+        :rate="exchangeRate"
+      />
     </div>
-
+      
     <ProductPagination
       :currentPage="currentPage"
       :totalPages="totalPages"
@@ -88,10 +87,6 @@ function applyFilters({ category, price }) {
 function goToPage(page) {
   currentPage.value = page;
 }
-
-const getGridClass = (index) => {
-  return index === 4 ? 'col-span-2' : '';
-};
 
 onMounted(async () => {
   await Promise.all([fetchProducts(), fetchCategories(), fetchRate()]);
